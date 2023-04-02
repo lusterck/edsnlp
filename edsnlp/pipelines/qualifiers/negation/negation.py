@@ -1,8 +1,8 @@
 from typing import List, Optional, Set, Union
 
-from spacy.language import Language
 from spacy.tokens import Doc, Span, Token
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.qualifiers.base import Qualifier
 from edsnlp.pipelines.terminations import termination
 from edsnlp.utils.deprecation import deprecated_getter_factory
@@ -33,8 +33,8 @@ class Negation(Qualifier):
 
     Parameters
     ----------
-    nlp : Language
-        spaCy nlp pipeline to use for matching.
+    nlp : PipelineProtocol
+        The pipeline instance
     attr : str
         spaCy's attribute to use
     pseudo : Optional[List[str]]
@@ -70,7 +70,7 @@ class Negation(Qualifier):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         attr: str,
         pseudo: Optional[List[str]],
         preceding: Optional[List[str]],
@@ -81,7 +81,6 @@ class Negation(Qualifier):
         within_ents: bool,
         explain: bool,
     ):
-
         terms = self.get_defaults(
             pseudo=pseudo,
             preceding=preceding,
@@ -106,7 +105,6 @@ class Negation(Qualifier):
 
     @classmethod
     def set_extensions(cl) -> None:
-
         if not Token.has_extension("negation"):
             Token.set_extension("negation", default=False)
 
@@ -242,7 +240,6 @@ class Negation(Qualifier):
         ents = None
 
         for start, end in boundaries:
-
             ents, entities = consume_spans(
                 entities,
                 filter=lambda s: check_inclusion(s, start, end),

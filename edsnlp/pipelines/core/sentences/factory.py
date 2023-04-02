@@ -1,7 +1,6 @@
 from typing import List, Optional
 
-from spacy.language import Language
-
+from edsnlp.core import PipelineProtocol, registry
 from edsnlp.utils.deprecation import deprecated_factory
 
 from . import SentenceSegmenter
@@ -19,13 +18,13 @@ DEFAULT_CONFIG = dict(
     default_config=DEFAULT_CONFIG,
     assigns=["token.is_sent_start"],
 )
-@Language.factory(
+@registry.factory.register(
     "eds.sentences",
     default_config=DEFAULT_CONFIG,
     assigns=["token.is_sent_start"],
 )
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     punct_chars: Optional[List[str]],
     use_endlines: Optional[bool],

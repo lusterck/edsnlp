@@ -1,9 +1,9 @@
 from typing import Dict, List, Optional, Union
 
-from spacy.language import Language
-
-from edsnlp.pipelines.misc.tables import TablesMatcher
+from edsnlp.core import PipelineProtocol, registry
 from edsnlp.utils.deprecation import deprecated_factory
+
+from .tables import TablesMatcher
 
 DEFAULT_CONFIG = dict(
     tables_pattern=None,
@@ -14,9 +14,9 @@ DEFAULT_CONFIG = dict(
 
 
 @deprecated_factory("tables", "eds.tables", default_config=DEFAULT_CONFIG)
-@Language.factory("eds.tables", default_config=DEFAULT_CONFIG)
+@registry.factory.register("eds.tables", default_config=DEFAULT_CONFIG)
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     tables_pattern: Optional[Dict[str, Union[List[str], str]]],
     sep_pattern: Optional[str],

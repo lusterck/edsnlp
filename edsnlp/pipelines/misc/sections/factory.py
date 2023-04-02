@@ -1,7 +1,6 @@
 from typing import Dict, List, Optional
 
-from spacy.language import Language
-
+from edsnlp.core import PipelineProtocol, registry
 from edsnlp.utils.deprecation import deprecated_factory
 
 from . import Sections
@@ -15,9 +14,9 @@ DEFAULT_CONFIG = dict(
 
 
 @deprecated_factory("sections", "eds.sections", default_config=DEFAULT_CONFIG)
-@Language.factory("eds.sections", default_config=DEFAULT_CONFIG)
+@registry.factory.register("eds.sections", default_config=DEFAULT_CONFIG)
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     sections: Optional[Dict[str, List[str]]],
     add_patterns: bool,

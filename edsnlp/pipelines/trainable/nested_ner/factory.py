@@ -1,6 +1,8 @@
-from spacy import Language
 from thinc.api import Model
 from thinc.config import Config
+
+from edsnlp import registry
+from edsnlp.core import PipelineProtocol
 
 from .nested_ner import TrainableNer
 from .nested_ner import make_nested_ner_scorer as create_scorer  # noqa: F401
@@ -34,7 +36,7 @@ nested_ner_default_config = """
 NESTED_NER_DEFAULTS = Config().from_str(nested_ner_default_config)
 
 
-@Language.factory(
+@registry.factory.register(
     "nested_ner",
     default_config=NESTED_NER_DEFAULTS,
     requires=["doc.ents", "doc.spans"],
@@ -46,7 +48,7 @@ NESTED_NER_DEFAULTS = Config().from_str(nested_ner_default_config)
     },
 )
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     model: Model,
     ent_labels=None,
@@ -59,7 +61,7 @@ def create_component(
 
     Parameters
     ----------
-    nlp: Language
+    nlp: PipelineProtocol
         The current nlp object
     name: str
         Name of the component

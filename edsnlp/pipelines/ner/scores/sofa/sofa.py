@@ -1,9 +1,9 @@
 import re
 from typing import Any, Callable, Dict, List, Union
 
-from spacy.language import Language
 from spacy.tokens import Span
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.ner.scores import Score
 
 
@@ -13,8 +13,8 @@ class Sofa(Score):
 
     Parameters
     ----------
-    nlp : Language
-        The spaCy object.
+    nlp : PipelineProtocol
+        The pipeline instance
     regex : List[str]
         A list of regexes to identify the SOFA score
     attr : str
@@ -39,7 +39,7 @@ class Sofa(Score):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         score_name: str,
         regex: List[str],
         attr: str,

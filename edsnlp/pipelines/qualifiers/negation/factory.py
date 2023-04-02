@@ -1,9 +1,9 @@
 from typing import List, Optional, Set, Union
 
-from spacy.language import Language
-
-from edsnlp.pipelines.qualifiers.negation import Negation
+from edsnlp.core import PipelineProtocol, registry
 from edsnlp.utils.deprecation import deprecated_factory
+
+from .negation import Negation
 
 DEFAULT_CONFIG = dict(
     pseudo=None,
@@ -24,13 +24,13 @@ DEFAULT_CONFIG = dict(
     default_config=DEFAULT_CONFIG,
     assigns=["span._.negation"],
 )
-@Language.factory(
+@registry.factory.register(
     "eds.negation",
     default_config=DEFAULT_CONFIG,
     assigns=["span._.negation"],
 )
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     attr: str,
     pseudo: Optional[List[str]],

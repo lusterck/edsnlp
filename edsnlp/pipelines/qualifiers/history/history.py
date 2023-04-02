@@ -3,9 +3,9 @@ from typing import List, Optional, Set, Union
 
 import pendulum
 from loguru import logger
-from spacy.language import Language
 from spacy.tokens import Doc, Span, Token
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.qualifiers.base import Qualifier
 from edsnlp.pipelines.terminations import termination
 from edsnlp.utils.deprecation import deprecated_getter_factory
@@ -23,8 +23,8 @@ class History(Qualifier):
 
     Parameters
     ----------
-    nlp : Language
-        spaCy nlp pipeline to use for matching.
+    nlp : PipelineProtocol
+        The pipeline instance
     history : Optional[List[str]]
         List of terms indicating medical history reference.
     use_sections : bool
@@ -59,7 +59,7 @@ class History(Qualifier):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         attr: str,
         history: Optional[List[str]],
         termination: Optional[List[str]],
@@ -71,7 +71,6 @@ class History(Qualifier):
         explain: bool,
         on_ents_only: Union[bool, str, List[str], Set[str]],
     ):
-
         terms = self.get_defaults(
             history=history,
             termination=termination,
@@ -129,7 +128,6 @@ class History(Qualifier):
 
     @classmethod
     def set_extensions(cls) -> None:
-
         if not Token.has_extension("history"):
             Token.set_extension("history", default=False)
 

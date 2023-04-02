@@ -1,8 +1,8 @@
 from typing import List, Optional, Set, Union
 
-from spacy.language import Language
 from spacy.tokens import Doc, Span, Token
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.qualifiers.base import Qualifier
 from edsnlp.pipelines.terminations import termination
 from edsnlp.utils.filter import consume_spans, filter_spans, get_spans
@@ -27,8 +27,8 @@ class Hypothesis(Qualifier):
 
     Parameters
     ----------
-    nlp : Language
-        spaCy nlp pipeline to use for matching.
+    nlp : PipelineProtocol
+        The pipeline instance
     pseudo : Optional[List[str]]
         List of pseudo hypothesis cues.
     preceding : Optional[List[str]]
@@ -67,7 +67,7 @@ class Hypothesis(Qualifier):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         attr: str,
         pseudo: Optional[List[str]],
         preceding: Optional[List[str]],
@@ -79,7 +79,6 @@ class Hypothesis(Qualifier):
         within_ents: bool,
         explain: bool,
     ):
-
         terms = self.get_defaults(
             pseudo=pseudo,
             preceding=preceding,
@@ -190,7 +189,6 @@ class Hypothesis(Qualifier):
         ents = None
 
         for start, end in boundaries:
-
             ents, entities = consume_spans(
                 entities,
                 filter=lambda s: check_inclusion(s, start, end),
@@ -219,7 +217,6 @@ class Hypothesis(Qualifier):
                     ) or any(m.start > token.i for m in sub_following)
 
             for ent in ents:
-
                 if self.within_ents:
                     cues = [m for m in sub_preceding if m.end <= ent.end]
                     cues += [m for m in sub_following if m.start >= ent.start]

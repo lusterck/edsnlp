@@ -4,9 +4,9 @@ from itertools import chain
 from typing import Dict, Iterable, List, Optional, Tuple, Union
 
 from loguru import logger
-from spacy.language import Language
 from spacy.tokens import Doc, Span
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.matchers.regex import RegexMatcher
 from edsnlp.pipelines.base import BaseComponent
 from edsnlp.utils.filter import filter_spans
@@ -28,8 +28,8 @@ class Dates(BaseComponent):
 
     Parameters
     ----------
-    nlp : spacy.language.Language
-        Language pipeline object
+    nlp : PipelineProtocol
+        The pipeline instance
     absolute : Union[List[str], str]
         List of regular expressions for absolute dates.
     relative : Union[List[str], str]
@@ -58,7 +58,7 @@ class Dates(BaseComponent):
     # noinspection PyProtectedMember
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         absolute: Optional[List[str]],
         relative: Optional[List[str]],
         duration: Optional[List[str]],
@@ -69,7 +69,6 @@ class Dates(BaseComponent):
         as_ents: bool,
         attr: str,
     ):
-
         self.nlp = nlp
 
         if absolute is None:
@@ -216,7 +215,6 @@ class Dates(BaseComponent):
         dates = list(sorted(dates, key=lambda d: d.start))
 
         for d1, d2 in zip(dates[:-1], dates[1:]):
-
             if d1._.date.mode == Mode.DURATION or d2._.date.mode == Mode.DURATION:
                 pass
             elif d1 in seen or d1._.date.mode is None or d2._.date.mode is None:
@@ -226,7 +224,6 @@ class Dates(BaseComponent):
                 d1.end - d2.start < PERIOD_PROXIMITY_THRESHOLD
                 and d1._.date.mode != d2._.date.mode
             ):
-
                 period = Span(d1.doc, d1.start, d2.end, label="period")
 
                 # If one date is a duration,

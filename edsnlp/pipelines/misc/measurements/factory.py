@@ -1,8 +1,8 @@
 from typing import Dict, List, Optional, Tuple, Union
 
-from spacy.language import Language
-
 import edsnlp.pipelines.misc.measurements.patterns as patterns
+from edsnlp import registry
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.misc.measurements.measurements import (
     MeasureConfig,
     MeasurementsMatcher,
@@ -27,10 +27,10 @@ DEFAULT_CONFIG = dict(
 )
 
 
-@Language.factory("eds.measurements", default_config=DEFAULT_CONFIG)
+@registry.factory.register("eds.measurements", default_config=DEFAULT_CONFIG)
 @deprecated_factory("eds.measures", "eds.measurements", default_config=DEFAULT_CONFIG)
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     measurements: Optional[Union[Dict[str, MeasureConfig], List[str]]],
     units_config: Dict[str, UnitConfig],

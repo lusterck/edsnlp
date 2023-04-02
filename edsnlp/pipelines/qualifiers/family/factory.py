@@ -1,9 +1,9 @@
 from typing import List, Optional, Set, Union
 
-from spacy.language import Language
-
-from edsnlp.pipelines.qualifiers.family import FamilyContext
+from edsnlp.core import PipelineProtocol, registry
 from edsnlp.utils.deprecation import deprecated_factory
+
+from .family import FamilyContext
 
 DEFAULT_CONFIG = dict(
     family=None,
@@ -21,13 +21,13 @@ DEFAULT_CONFIG = dict(
     default_config=DEFAULT_CONFIG,
     assigns=["span._.family"],
 )
-@Language.factory(
+@registry.factory.register(
     "eds.family",
     default_config=DEFAULT_CONFIG,
     assigns=["span._.family"],
 )
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     family: Optional[List[str]],
     termination: Optional[List[str]],

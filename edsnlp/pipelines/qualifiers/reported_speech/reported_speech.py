@@ -1,8 +1,8 @@
 from typing import List, Optional, Set, Union
 
-from spacy.language import Language
 from spacy.tokens import Doc, Span, Token
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.matchers.regex import RegexMatcher
 from edsnlp.pipelines.qualifiers.base import Qualifier
 from edsnlp.utils.filter import consume_spans, filter_spans, get_spans
@@ -21,8 +21,8 @@ class ReportedSpeech(Qualifier):
 
     Parameters
     ----------
-    nlp : Language
-        spaCy nlp pipeline to use for matching.
+    nlp : PipelineProtocol
+        The pipeline instance
     quotation : str
         String gathering all quotation cues.
     verbs : List[str]
@@ -58,7 +58,7 @@ class ReportedSpeech(Qualifier):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         attr: str,
         pseudo: Optional[List[str]],
         preceding: Optional[List[str]],
@@ -69,7 +69,6 @@ class ReportedSpeech(Qualifier):
         within_ents: bool,
         explain: bool,
     ):
-
         terms = self.get_defaults(
             pseudo=pseudo,
             preceding=preceding,
@@ -98,7 +97,6 @@ class ReportedSpeech(Qualifier):
 
     @classmethod
     def set_extensions(cls) -> None:
-
         if not Token.has_extension("reported_speech"):
             Token.set_extension("reported_speech", default=False)
 
@@ -179,7 +177,6 @@ class ReportedSpeech(Qualifier):
         matches = filter_spans(matches, label_to_remove="pseudo")
 
         for start, end in boundaries:
-
             ents, entities = consume_spans(
                 entities,
                 filter=lambda s: check_inclusion(s, start, end),
@@ -212,7 +209,6 @@ class ReportedSpeech(Qualifier):
                         )
                     )
             for ent in ents:
-
                 if self.within_ents:
                     cues = [m for m in sub_preceding + sub_verbs if m.end <= ent.end]
                     cues += [m for m in sub_following if m.start >= ent.start]

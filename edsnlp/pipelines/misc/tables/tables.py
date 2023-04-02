@@ -2,9 +2,9 @@ from io import StringIO
 from typing import Dict, Optional, Union
 
 import pandas as pd
-from spacy.language import Language
 from spacy.tokens import Doc, Span
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.pipelines.core.matcher import GenericMatcher
 from edsnlp.pipelines.misc.tables import patterns
 from edsnlp.utils.filter import get_spans
@@ -17,8 +17,8 @@ class TablesMatcher(GenericMatcher):
 
     Parameters
     ----------
-    nlp : Language
-        spaCy nlp pipeline to use for matching.
+    nlp : PipelineProtocol
+        The pipeline instance
     tables_pattern : Optional[Dict[str, str]]
         The regex pattern to identify tables.
         The key of dictionary should be `tables`
@@ -32,7 +32,7 @@ class TablesMatcher(GenericMatcher):
 
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         tables_pattern: Optional[Dict[str, str]],
         sep_pattern: Optional[str],
         attr: Union[Dict[str, str], str],

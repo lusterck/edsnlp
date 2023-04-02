@@ -1,19 +1,19 @@
 from typing import Any, Dict, Optional
 
-from spacy.language import Language
+from edsnlp.core import PipelineProtocol, registry
 
 from .peripheral_vascular_disease import PeripheralVascularDisease
 
 DEFAULT_CONFIG = dict(patterns=None)
 
 
-@Language.factory(
+@registry.factory.register(
     "eds.peripheral_vascular_disease",
     default_config=DEFAULT_CONFIG,
     assigns=["doc.ents", "doc.spans"],
 )
 def create_component(
-    nlp: Language,
+    nlp: PipelineProtocol,
     name: str,
     patterns: Optional[Dict[str, Any]],
 ):

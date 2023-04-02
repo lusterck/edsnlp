@@ -2,9 +2,9 @@
 from typing import Dict, List, Optional, Tuple, Union
 
 from pydantic import ValidationError
-from spacy.language import Language
 from spacy.tokens import Doc, Span
 
+from edsnlp.core import PipelineProtocol
 from edsnlp.matchers.regex import RegexMatcher
 from edsnlp.pipelines.base import BaseComponent
 from edsnlp.utils.filter import filter_spans
@@ -20,8 +20,8 @@ class TNM(BaseComponent):
 
     Parameters
     ----------
-    nlp : spacy.language.Language
-        Language pipeline object
+    nlp : PipelineProtocol
+        The pipeline instance
     pattern : Optional[Union[List[str], str]]
         List of regular expressions for TNM mentions.
     attr : str
@@ -31,7 +31,7 @@ class TNM(BaseComponent):
     # noinspection PyProtectedMember
     def __init__(
         self,
-        nlp: Language,
+        nlp: PipelineProtocol,
         pattern: Optional[Union[List[str], str]],
         attr: str,
     ):
