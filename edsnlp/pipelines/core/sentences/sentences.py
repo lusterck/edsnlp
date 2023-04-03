@@ -1,10 +1,9 @@
 from typing import List, Optional
 
+from spacy import Vocab
 from spacy.tokens import Doc
 
-from edsnlp.core import PipelineProtocol
-from edsnlp.pipelines.core.sentences.fast_sentences import FastSentenceSegmenter
-
+from .fast_sentences import FastSentenceSegmenter
 from .terms import punctuation
 
 
@@ -20,8 +19,7 @@ class SentenceSegmenter:
 
     def __init__(
         self,
-        nlp: PipelineProtocol,
-        name: str,
+        vocab: Vocab,
         punct_chars: Optional[List[str]] = None,
         use_endlines: bool = None,
         ignore_excluded: bool = True,
@@ -29,10 +27,8 @@ class SentenceSegmenter:
         """
         Parameters
         ----------
-        nlp: PipelineProtocol
-            The EDS-NLP pipeline
-        name: str
-            The name of the component
+        vocab : Vocab
+            Vocabulary
         punct_chars: Optional[List[str]]
             Punctuation characters.
         use_endlines: bool
@@ -45,7 +41,7 @@ class SentenceSegmenter:
             punct_chars = punctuation
 
         self.fast_segmenter = FastSentenceSegmenter(
-            nlp.vocab,
+            vocab,
             punct_chars,
             use_endlines,
             ignore_excluded,

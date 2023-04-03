@@ -75,7 +75,7 @@ def create_component(
     """
     return Sofa(
         nlp,
-        score_name=name,
+        score_name="sofa",
         regex=regex,
         value_extract=value_extract,
         score_normalization=score_normalization,
