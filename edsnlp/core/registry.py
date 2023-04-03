@@ -1,6 +1,5 @@
 import inspect
 from dataclasses import dataclass
-from functools import wraps
 from typing import Any, Callable, Dict, Iterable, List, Optional, Sequence
 from weakref import WeakKeyDictionary
 
@@ -225,9 +224,14 @@ class FactoryRegistry(Registry):
                 default_config=default_config,
             )
 
-            @wraps(fn)
-            def instantiate_and_save_meta(*args, **kwargs):
-                instantiated = fn(*args, **kwargs)
+            def invoke(validated_fn, kwargs):
+                if default_config is not None:
+                    kwargs = (
+                        Config(default_config)
+                        .resolve(registry=self.registry)
+                        .merge(kwargs)
+                    )
+                instantiated = validated_fn(kwargs)
                 PIPE_META[instantiated] = meta
                 return instantiated
 
@@ -236,8 +240,8 @@ class FactoryRegistry(Registry):
                 name=name,
                 save_params=save_params,
                 skip_save_params=["nlp", "name"],
-                default_config=default_config,
-                func=instantiate_and_save_meta,
+                func=fn,
+                invoker=invoke,
             )
 
             return registered_fn
