@@ -214,17 +214,17 @@ omit-covered-files = false
 # generate-badge = "."
 # badge-format = "svg"
 
-[tool.coverage]
-exclude_lines = [
+[tool.coverage.report]
+exclude_also = [
+    "def __repr__",
     "if __name__ == .__main__.:",
-    "if TYPE_CHECKING:",
-    "if typing.TYPE_CHECKING:",
     "@overload",
     "pragma: no cover",
-    "raise AssertionError",
-    "raise NotImplementedError",
     "raise .*Error",
-    "def __repr__",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
     "Span.set_extension.*",
     "Doc.set_extension.*",
     "Token.set_extension.*",

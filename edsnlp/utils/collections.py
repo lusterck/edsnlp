@@ -82,12 +82,12 @@ class batch_compress_dict:
     def __iter__(self):
         return batch_compress_dict(iter(self.seq))
 
-    def __getstate__(self):
-        return {"seq": self.seq}
+    # def __getstate__(self):
+    #     return {"seq": self.seq}
 
-    def __setstate__(self, state):
-        self.seq = state["seq"]
-        self.flatten = None
+    # def __setstate__(self, state):
+    #     self.seq = state["seq"]
+    #     self.flatten = None
 
     def __next__(self) -> Dict[str, List]:
         exec_result = {}
@@ -128,7 +128,7 @@ def decompress_dict(seq: Union[Iterable[Dict[str, Any]], Dict[str, Any]]):
     return res
 
 
-def dedup(sequence, key=None):
+def dedup(sequence, key):
     """
     Deduplicate a sequence, keeping the last occurrence of each item.
 
@@ -136,11 +136,9 @@ def dedup(sequence, key=None):
     ----------
     sequence : Sequence
         Sequence to deduplicate
-    key : Callable, optional
+    key : Callable
         Key function to use for deduplication, by default None
     """
-    if key is None:
-        return list(dict.fromkeys(sequence))
     return list({key(item): item for item in sequence}.values())
 
 
