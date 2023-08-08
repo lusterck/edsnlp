@@ -146,6 +146,7 @@ where = ["."]
 "eds.dates"                       = "edsnlp.pipelines.misc.dates.factory:create_component"
 "eds.measurements"                = "edsnlp.pipelines.misc.measurements.factory:create_component"
 "eds.reason"                      = "edsnlp.pipelines.misc.reason.factory:create_component"
+"eds.tables"                      = "edsnlp.pipelines.misc.tables.factory:create_component"
 "eds.sections"                    = "edsnlp.pipelines.misc.sections.factory:create_component"
 
 # Trainable
