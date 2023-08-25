@@ -2,7 +2,7 @@
 name = "edsnlp"
 description = "A set of spaCy components to extract information from clinical notes written in French"
 authors = [
-    { name = "Data Science - DSN APHP", email = "perceval.wajsburt-ext@aphp.fr" }
+    { name = "Data Science - DSN APHP", email = "perceval.wajsburt@aphp.fr" }
 ]
 license = { file = "LICENSE" }
 readme = "README.md"
@@ -56,8 +56,8 @@ docs = [
     "mkdocs-img2fig-plugin==0.9.3",
     "mkdocs-material~=9.1.0",
     "mkdocs-section-index==0.3.4",
-    "mkdocstrings~=0.21.2",
-    "mkdocstrings-python~=0.10.1",
+    "mkdocstrings>=0.18.1,<1.0.0",
+    "mkdocstrings-python>=0.6,<2.0.0",
 ]
 trainable = [
     "torch>=1.0.0",
@@ -156,12 +156,12 @@ where = ["."]
 "eds.span_qualifier"              = "edsnlp.pipelines.trainable.span_qualifier.factory:create_component"
 
 [project.entry-points."spacy_scorers"]
-"eds.ner_exact_scorer" = "edsnlp.pipelines.trainable.ner.factory:create_ner_exact_scorer"
-"eds.span_qualifier_scorer" = "edsnlp.pipelines.trainable.span_qualifier.factory:create_scorer"
+"eds.ner_exact_scorer" = "edsnlp.scorers.ner:create_ner_exact_scorer"
+"eds.ner_token_scorer" = "edsnlp.scorers.ner:create_ner_token_scorer"
+"eds.speed"            = "edsnlp.scorers.speed:create_speed_scorer"
 
 [project.entry-points."spacy_misc"]
 "eds.candidate_span_qualifier_getter" = "edsnlp.pipelines.trainable.span_qualifier.factory:create_candidate_getter"
-"eds.span_getter" = "edsnlp.pipelines.trainable.ner.ner:make_span_getter"
 
 [project.entry-points."spacy_languages"]
 "eds" = "edsnlp.language:EDSLanguage"

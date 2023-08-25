@@ -17,7 +17,6 @@ repos:
       - id: check-toml
       - id: check-json
       - id: check-symlinks
-      - id: check-docstring-first
       - id: check-added-large-files
       - id: detect-private-key
   # ruff
