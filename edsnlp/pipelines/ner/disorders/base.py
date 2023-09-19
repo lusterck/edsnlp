@@ -104,6 +104,8 @@ class DisorderMatcher(ContextualMatcher):
         spans = list(self.process(doc))
         for span in spans:
             span._.detailed_status = self.detailed_status_mapping[span._.status]
+            if span._.status == 0:
+                span._.negation = True
 
         self.set_spans(doc, filter_spans(spans))
 
